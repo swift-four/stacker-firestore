@@ -14,7 +14,6 @@ class Calendar extends Component {
 		currentRows: [],
 		currentCards: [],
 		message: "",
-		orderMessage: "default order",
 	};
 
 	addCalendarInput = React.createRef();
@@ -66,6 +65,23 @@ class Calendar extends Component {
 			});
 		}
 	};
+
+	// getRows = async (calendarId) => {
+	// 	try {
+	// 		const rows = await rowsRef.where("list.board", "==", calendarId).get();
+	// 		rows.forEach((row) => {
+	// 			const data = row.data().list;
+	// 			const rowObj = {
+	// 				id: row.id,
+	// 				...data,
+	// 			};
+	// 			this.setState({ currentRows: [...this.state.currentRows, rowObj] });
+	// 			console.log("after getRows has set state", this.state.currentRows);
+	// 		});
+	// 	} catch (error) {
+	// 		console.log("Error fetching rows: ", error);
+	// 	}
+	// };
 
 	createNewRow = async (e, userId) => {
 		try {
@@ -127,7 +143,13 @@ class Calendar extends Component {
 			};
 
 			this.setState(newState);
+
+			console.log("after dragend", this.state.currentRows);
 		}
+	};
+
+	showRowOrder = () => {
+		console.log(this.state.currentRows);
 	};
 
 	// moveRowUp = () => {
@@ -189,7 +211,7 @@ class Calendar extends Component {
 												{Object.keys(this.state.currentRows).map(
 													(key, index) => (
 														<Row
-															key={this.state.currentRows[key].id}
+															key={key}
 															row={this.state.currentRows[key]}
 															deleteRow={this.props.deleteRow}
 															id={this.state.currentRows[key].id}
@@ -212,6 +234,7 @@ class Calendar extends Component {
 										ref={this.addCalendarInput}
 										placeholder="+ New Row"></input>
 								</form>
+								<button onClick={this.showRowOrder}></button>
 							</div>
 						) : (
 							<span></span>

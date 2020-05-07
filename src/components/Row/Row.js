@@ -196,7 +196,7 @@ class Row extends Component {
 }
 
 Row.propTypes = {
-	row: PropTypes.object.isRequired,
+	// row: PropTypes.object.isRequired,
 	deleteRow: PropTypes.func.isRequired,
 };
 

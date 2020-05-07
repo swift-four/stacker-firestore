@@ -16,6 +16,7 @@ class CreateCalendarForm extends Component {
 			background: this.state.background,
 			createdAt: new Date(),
 			user: userId,
+			rowOrder: [],
 		};
 		if (calendar.title && calendar.background && calendar.user) {
 			this.props.createNewCalendar(calendar);
