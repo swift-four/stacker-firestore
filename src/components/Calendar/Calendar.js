@@ -8,11 +8,15 @@ import Aux from "../Hoc/Aux";
 import classes from "./Calendar.module.css";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
+//everytime we drag we need to re render the lists
+//I just checked the key to be this.state.currentRows[key]id
+
 class Calendar extends Component {
 	state = {
 		currentCalendar: {},
 		currentRows: [],
 		currentCards: [],
+		RowOrder: [], // An array from collection('calendars') that stores the ids of the rows
 		message: "",
 	};
 
@@ -23,7 +27,26 @@ class Calendar extends Component {
 		this.getRows(this.props.match.params.calendarId);
 	}
 
+	// getRows = async () => {
+	// 	try {
+	// 		//get the calendars from firebase but only once - this doesn't listen to changes
+	// 		const calendarId = this.props.match.params.calendarId;
+	// 		const rows = await rowsRef.where("row.calendar", "==", calendarId).get();
+	// 		rows.forEach((row) => {
+	// 			const data = row.data().row;
+	// 			const rowObj = {
+	// 				id: row.id,
+	// 				...data,
+	// 			};
+	// 			this.setState({ currentRows: [...this.state.currentRows, rowObj] });
+	// 		});
+	// 	} catch (error) {
+	// 		console.log("Error getting calendars", error);
+	// 	}
+	// };
+
 	getRows = async (calendarId) => {
+		//get rows where the listIds are equal to the list IDs stored in the
 		try {
 			await rowsRef
 				.where("row.calendar", "==", calendarId)
@@ -55,6 +78,39 @@ class Calendar extends Component {
 		}
 	};
 
+	// getRows = async (calendarId) => {
+	// 	//get rows where the listIds are equal to the list IDs stored in the
+	// 	try {
+	// 		await rowsRef
+	// 			.where("row.calendar", "==", calendarId)
+	// 			.onSnapshot((snapshot) => {
+	// 				snapshot.docChanges().forEach((change) => {
+	// 					if (change.type === "added") {
+	// 						const doc = change.doc;
+	// 						const row = {
+	// 							id: doc.id,
+	// 							title: doc.data().row.title,
+	// 						};
+	// 						this.setState({
+	// 							currentRows: [...this.state.currentRows, row],
+	// 						});
+	// 					}
+	// 					if (change.type === "removed") {
+	// 						this.setState({
+	// 							currentRows: [
+	// 								...this.state.currentRows.filter((row) => {
+	// 									return row.id !== change.doc.id;
+	// 								}),
+	// 							],
+	// 						});
+	// 					}
+	// 				});
+	// 			});
+	// 	} catch (error) {
+	// 		console.log("Error fetching rows:", error);
+	// 	}
+	// };
+
 	getCalendar = async (calendarId) => {
 		try {
 			const calendar = await calendarsRef.doc(calendarId).get();
@@ -65,23 +121,6 @@ class Calendar extends Component {
 			});
 		}
 	};
-
-	// getRows = async (calendarId) => {
-	// 	try {
-	// 		const rows = await rowsRef.where("list.board", "==", calendarId).get();
-	// 		rows.forEach((row) => {
-	// 			const data = row.data().list;
-	// 			const rowObj = {
-	// 				id: row.id,
-	// 				...data,
-	// 			};
-	// 			this.setState({ currentRows: [...this.state.currentRows, rowObj] });
-	// 			console.log("after getRows has set state", this.state.currentRows);
-	// 		});
-	// 	} catch (error) {
-	// 		console.log("Error fetching rows: ", error);
-	// 	}
-	// };
 
 	createNewRow = async (e, userId) => {
 		try {
@@ -96,6 +135,7 @@ class Calendar extends Component {
 			if (row.title && row.calendar) {
 				await rowsRef.add({ row });
 			}
+
 			this.addCalendarInput.current.value = "";
 		} catch (error) {
 			console.error("Error creating a new row", error);
@@ -133,9 +173,12 @@ class Calendar extends Component {
 		}
 
 		if (type === "row") {
+			const draggableRow = this.state.currentRows.find(
+				(row) => row.id === draggableId
+			);
 			const newRowOrder = Array.from(this.state.currentRows);
 			newRowOrder.splice(source.index, 1);
-			newRowOrder.splice(destination.index, 0, draggableId);
+			newRowOrder.splice(destination.index, 0, draggableRow);
 
 			const newState = {
 				...this.state,
@@ -143,8 +186,8 @@ class Calendar extends Component {
 			};
 
 			this.setState(newState);
-
-			console.log("after dragend", this.state.currentRows);
+			return;
+			// this.setState({ currentRowOrder: newRowOrder });
 		}
 	};
 
@@ -152,28 +195,7 @@ class Calendar extends Component {
 		console.log(this.state.currentRows);
 	};
 
-	// moveRowUp = () => {
-
-	// 	const newRowOrder = Array.from(this.state.currentRows);
-	// 	newRowOrder.splice(source.index, 1);
-	// 	newRowOrder.splice(destination.index, 0, draggableId);
-
-	// 	const newState = {
-	// 		...this.state,
-	// 		columnOrder: newColumnOrder,
-	// 	};
-
-	// 	this.setState(newState);
-	// 	return;
-	// };
-
 	render() {
-		//On drag end = compare the previous state of the row order and if its changed, update it, splice the arrays then update state
-		// let newOrder = this.state.currentRows;
-		// newOrder.sort(function (a, b) {
-		// 	return 0.5 - Math.random();
-		// });
-
 		return (
 			<AuthConsumer>
 				{({ user }) => (
@@ -209,9 +231,10 @@ class Calendar extends Component {
 												{...provided.droppableProps}
 												ref={provided.innerRef}>
 												{Object.keys(this.state.currentRows).map(
+													// instead of mapping through the current rows map through row order
 													(key, index) => (
 														<Row
-															key={key}
+															key={this.state.currentRows[key].id}
 															row={this.state.currentRows[key]}
 															deleteRow={this.props.deleteRow}
 															id={this.state.currentRows[key].id}
@@ -234,7 +257,7 @@ class Calendar extends Component {
 										ref={this.addCalendarInput}
 										placeholder="+ New Row"></input>
 								</form>
-								<button onClick={this.showRowOrder}></button>
+								<button onClick={this.showRowOrder}>Rows</button>
 							</div>
 						) : (
 							<span></span>

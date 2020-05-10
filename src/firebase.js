@@ -21,4 +21,4 @@ const calendarsRef = db.collection("calendars");
 const rowsRef = db.collection("rows");
 const cardsRef = db.collection("cards");
 
-export { calendarsRef, rowsRef, cardsRef, firebaseAuth };
+export { calendarsRef, rowsRef, cardsRef, firebaseAuth, db };

@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import Card from "../Card/Card";
 import { cardsRef, rowsRef } from "../../firebase";
 import { AuthConsumer } from "../../contexts/AuthContext";
-import {
-	AiOutlineDelete,
-	AiOutlineCaretDown,
-	AiOutlineCaretUp,
-} from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -103,6 +99,10 @@ class Row extends Component {
 		}
 	};
 
+	showCardOrder = () => {
+		console.log(this.state.currentCards);
+	};
+
 	render() {
 		return (
 			<AuthConsumer>
@@ -137,20 +137,6 @@ class Row extends Component {
 														defaultValue={this.props.row.title}></input>
 													<div>
 														<AiOutlineDelete
-															onClick={this.deleteRow}
-															style={{
-																cursor: "pointer",
-																marginRight: "10px",
-															}}
-														/>
-														<AiOutlineCaretDown
-															onClick={this.deleteRow}
-															style={{
-																cursor: "pointer",
-																marginRight: "10px",
-															}}
-														/>
-														<AiOutlineCaretUp
 															onClick={this.deleteRow}
 															style={{
 																cursor: "pointer",

@@ -12,6 +12,7 @@ import classes from "./Toolbar.module.css";
 class Toolbar extends Component {
 	state = {
 		modalOpen: false,
+		isCollapsed: true,
 	};
 
 	render() {

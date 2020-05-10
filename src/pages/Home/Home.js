@@ -12,7 +12,6 @@ class Home extends Component {
 	render() {
 		return (
 			<div>
-				{/* <Navbar/> */}
 				<span>{this.props.match.params.userId}</span>
 				<CreateCalendarForm createNewCalendar={this.props.createNewCalendar} />
 				<div className={classes.calendarPreviewWrapper}>
