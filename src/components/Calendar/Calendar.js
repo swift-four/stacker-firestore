@@ -240,6 +240,7 @@ class Calendar extends Component {
 															id={this.state.currentRows[key].id}
 															cards={this.state.currentCards}
 															index={index}
+															calendarId={this.props.match.params.calendarId}
 														/>
 													)
 												)}
