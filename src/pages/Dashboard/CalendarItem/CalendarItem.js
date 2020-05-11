@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import classes from "./CalendarItem.module.css";
+import classes from "../CalendarItem/CalendarItem.module.css";
 
 class CalendarItem extends Component {
 	goToCalendar = () => {

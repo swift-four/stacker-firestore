@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import "./App.css";
 import Calendar from "./components/Calendar/Calendar";
-import Home from "./pages/Home/Home";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import { calendarsRef, rowsRef, cardsRef } from "./firebase";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
@@ -116,7 +116,7 @@ class App extends Component {
 								path="/:userId/calendars"
 								//Go to react-dev-tools and inspect match() to find the passed userID value. This is used to render calendars based on user.
 								render={(props) => (
-									<Home
+									<Dashboard
 										{...props}
 										getCalendars={this.getCalendars}
 										calendars={this.state.calendars}

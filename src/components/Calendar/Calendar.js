@@ -27,24 +27,6 @@ class Calendar extends Component {
 		this.getRows(this.props.match.params.calendarId);
 	}
 
-	// getRows = async () => {
-	// 	try {
-	// 		//get the calendars from firebase but only once - this doesn't listen to changes
-	// 		const calendarId = this.props.match.params.calendarId;
-	// 		const rows = await rowsRef.where("row.calendar", "==", calendarId).get();
-	// 		rows.forEach((row) => {
-	// 			const data = row.data().row;
-	// 			const rowObj = {
-	// 				id: row.id,
-	// 				...data,
-	// 			};
-	// 			this.setState({ currentRows: [...this.state.currentRows, rowObj] });
-	// 		});
-	// 	} catch (error) {
-	// 		console.log("Error getting calendars", error);
-	// 	}
-	// };
-
 	getRows = async (calendarId) => {
 		//get rows where the listIds are equal to the list IDs stored in the
 		try {
@@ -187,7 +169,6 @@ class Calendar extends Component {
 
 			this.setState(newState);
 			return;
-			// this.setState({ currentRowOrder: newRowOrder });
 		}
 	};
 
@@ -231,7 +212,6 @@ class Calendar extends Component {
 												{...provided.droppableProps}
 												ref={provided.innerRef}>
 												{Object.keys(this.state.currentRows).map(
-													// instead of mapping through the current rows map through row order
 													(key, index) => (
 														<Row
 															key={this.state.currentRows[key].id}

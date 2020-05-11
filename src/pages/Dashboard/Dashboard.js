@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import CalendarItem from "./CalendarItem/CalendarItem";
+import CalendarItem from "../Dashboard/CalendarItem/CalendarItem";
 import PropTypes from "prop-types";
-import CreateCalendarForm from "../Home/CreateCalendarForm/CreateCalendarForm";
-import classes from "../Home/Home.module.css";
+import CreateCalendarForm from "../Dashboard/CreateCalendarForm/CreateCalendarForm";
+import classes from "../Dashboard/Dashboard.module.css";
 
 class Home extends Component {
 	componentDidMount() {

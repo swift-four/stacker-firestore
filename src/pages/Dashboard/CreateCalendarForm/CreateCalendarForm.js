@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { AuthConsumer } from "../../../contexts/AuthContext";
-import classes from "../../Home/CreateCalendarForm/CreateCalendarForm.module.css";
+import classes from "../CreateCalendarForm/CreateCalendarForm.module.css";
 
 class CreateCalendarForm extends Component {
 	state = {
@@ -16,7 +16,6 @@ class CreateCalendarForm extends Component {
 			background: this.state.background,
 			createdAt: new Date(),
 			user: userId,
-			rowOrder: [],
 		};
 		if (calendar.title && calendar.background && calendar.user) {
 			this.props.createNewCalendar(calendar);
@@ -52,7 +51,6 @@ class CreateCalendarForm extends Component {
 					</form>
 				)}
 			</AuthConsumer>
-			//Take user input for calendar name and colour in the home page
 		);
 	}
 }
