@@ -71,7 +71,6 @@ class Row extends Component {
 				labels: [],
 				createdAt: new Date(),
 				user: userId,
-				calendarId: this.props.calendarId,
 			};
 			//check if the text and id exist first
 			if (card.text && card.rowId) {
