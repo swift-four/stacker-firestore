@@ -112,7 +112,7 @@ class Row extends Component {
 								{...provided.dragHandleProps}
 								{...provided.draggableProps}
 								ref={provided.innerRef}
-								className={classes.rowOuterContainer}>
+								className={classes.rowContainer}>
 								<Droppable
 									droppableId={this.props.row.id}
 									direction="horizontal"
@@ -125,8 +125,7 @@ class Row extends Component {
 											<ExpansionPanelSummary
 												expandIcon={<ExpandMoreIcon />}
 												aria-controls="panel1a-content"
-												id="panel1a-header"
-												className="expansion-summary-override">
+												id="panel1a-header">
 												<div className={classes.rowHeader}>
 													<input
 														className={classes.rowHeaderInput}

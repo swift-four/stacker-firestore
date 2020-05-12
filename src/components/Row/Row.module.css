@@ -40,6 +40,7 @@
 	font-weight: bold;
 	margin: 0px;
 	padding: 0px;
+	color: #0b0f32;
 }
 
 .newCardInput {
@@ -61,6 +62,7 @@
 	margin-top: 15px;
 	margin-bottom: 15px;
 	border: 1px solid lightgrey;
+	box-shadow: none;
 }
 
 .expansionSummaryOverride {

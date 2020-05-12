@@ -22,22 +22,22 @@ class Toolbar extends Component {
 					<div className={classes.toolbarContainer}>
 						<div className={classes.toolbarIconWrapper}>
 							<a
-								className={classes.toolbarIconContainer}
+								className={classes.buttonDefault}
 								href={user.id ? `/${user.id}/calendars` : `/`}>
-								<AiOutlineCalendar style={{ marginRight: "10px" }} /> All
+								<AiOutlineCalendar style={{ marginRight: "8px" }} /> All
 								Calendars
 							</a>
-							<div className={classes.toolbarIconContainer}>
-								<AiOutlineShareAlt style={{ marginRight: "10px" }} />
+							<div className={classes.buttonDefault}>
+								<AiOutlineShareAlt style={{ marginRight: "8px" }} />
 								Share
 							</div>
 						</div>
 						<div className={classes.toolbarIconWrapper}>
-							<div className={classes.toolbarIconContainer}>
-								<AiOutlineSetting style={{ marginRight: "10px" }} /> Settings
+							<div className={classes.buttonDefault}>
+								<AiOutlineSetting style={{ marginRight: "8px" }} /> Settings
 							</div>
-							<div className={classes.toolbarIconContainer}>
-								<AiOutlineDown style={{ marginRight: "10px" }} /> Collapse All
+							<div className={classes.buttonDefault}>
+								<AiOutlineDown style={{ marginRight: "8px" }} /> Collapse All
 							</div>
 							<div
 								className={classes.buttonDanger}

@@ -182,11 +182,7 @@ class Calendar extends Component {
 				{({ user }) => (
 					<React.Fragment>
 						{user.id === this.state.currentCalendar.user ? (
-							<div
-								className={classes.calendarWrapper}
-								style={{
-									backgroundColor: this.state.currentCalendar.background,
-								}}>
+							<div className={classes.calendarWrapper}>
 								{this.state.message === "" ? (
 									<Aux>
 										<Toolbar deleteCalendar={this.deleteCalendar} />
