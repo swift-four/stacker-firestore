@@ -26,7 +26,7 @@ class Row extends Component {
 						id: doc.id,
 						text: doc.data().card.text,
 						body: doc.data().card.body,
-						labels: doc.data().card.labels,
+						assets: doc.data().card.cardAsset,
 					};
 					if (change.type === "added") {
 						this.setState({
@@ -68,8 +68,7 @@ class Row extends Component {
 				text: this.nameInput.current.value,
 				body: "",
 				rowId: this.props.row.id,
-				labels: [],
-				createdAt: new Date(),
+				cardAssets: "",
 				user: userId,
 			};
 			//check if the text and id exist first
@@ -152,7 +151,6 @@ class Row extends Component {
 													(key, index) => (
 														<Card
 															key={key}
-															cardData={this.state.currentCards[key]}
 															card={this.state.currentCards[key]}
 															index={index}
 														/>

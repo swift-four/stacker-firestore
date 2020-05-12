@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import "firebase/storage";
 
 const config = {
 	apiKey: "AIzaSyDGqgDVwB1w7aNqGkSQR2chFQ6VYd50mR8",
@@ -19,6 +20,7 @@ const db = firebase.firestore();
 const firebaseAuth = firebase.auth();
 const calendarsRef = db.collection("calendars");
 const rowsRef = db.collection("rows");
+const storage = firebase.storage();
 const cardsRef = db.collection("cards");
 
-export { calendarsRef, rowsRef, cardsRef, firebaseAuth, db };
+export { calendarsRef, rowsRef, cardsRef, firebaseAuth, db, storage };

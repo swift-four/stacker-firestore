@@ -1,17 +1,31 @@
 import React from "react";
-//import { cardsRef } from "../../../firebase";
+// import { cardsRef, storage } from "../../../../firebase";
 import PropTypes from "prop-types";
 import classes from "../UploadCardAssetModal/UploadCardAssetModal.module.css";
 
 class UploadCardAssetModal extends React.Component {
-	// uploadAssets = async (e) => {
+	state = {
+		url: "",
+	};
+
+	componentDidMount() {
+		this.setState({
+			assetLinks: this.props.cardData.cardAssets,
+		});
+	}
+
+	// upload the assets to storage and update the state with the URLS
+	// when the save button is clicked, push the new state array to firebase
+	// conditionally render the card upload element if there is links in the array
+
+	// updateCardAssets = async (e) => {
 	// 	try {
 	// 		e.preventDefault();
 	// 		const cardId = this.props.cardData.id;
-	// 		// const newCardAssets = this.input.current.value;
+	// 		const links = this.state.assetLinks;
 	// 		const card = await cardsRef.doc(cardId);
 	// 		card.update({
-	// 			"card.assets": newText,
+	// 			"card.cardAssets": this.state.assetLinks,
 	// 		});
 	// 		this.props.toggleModal();
 	// 	} catch (error) {
@@ -33,9 +47,7 @@ class UploadCardAssetModal extends React.Component {
 								&times;
 							</span>
 						</div>
-						<button type="submit" onClick={this.props.toggleModal}>
-							Upload
-						</button>
+						<input type="file" onChange={this.props.uploadImage} />
 					</form>
 				</div>
 			</div>

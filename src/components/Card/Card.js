@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { cardsRef } from "../../firebase";
+import { cardsRef, storage } from "../../firebase";
 import UploadCardAssetmodal from "./CardAsset/UploadCardAssetModal/UploadCardAssetModal";
 import TextareaAutosize from "react-autosize-textarea";
-import { AiOutlineForm, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineUpload, AiOutlineDelete } from "react-icons/ai";
 import Aux from "../Hoc/Aux";
 import classes from "./Card.module.css";
 import { Draggable } from "react-beautiful-dnd";
@@ -11,6 +11,7 @@ import { Draggable } from "react-beautiful-dnd";
 class Card extends Component {
 	state = {
 		isModalOpen: false,
+		url: "",
 	};
 
 	toggleModal = () => {
@@ -58,6 +59,31 @@ class Card extends Component {
 		this.setState({ isModalOpen: !this.state.isModalOpen });
 	};
 
+	handleImageUpload = (e) => {
+		if (e.target.files[0]) {
+			const image = e.target.files[0];
+			const uploadTask = storage.ref(`images/${image.name}`).put(image);
+			uploadTask.on(
+				"state_changed",
+				(snapshot) => {
+					console.log(snapshot);
+				},
+				(error) => {
+					console.log(error);
+				},
+				() => {
+					storage
+						.ref("images/")
+						.child(image.name)
+						.getDownloadURL()
+						.then((url) => {
+							this.setState({ url });
+						});
+				}
+			);
+		}
+	};
+
 	render() {
 		return (
 			<Aux>
@@ -71,32 +97,37 @@ class Card extends Component {
 							<div className={classes.cardHeader}>
 								<TextareaAutosize
 									className={classes.cardHeaderInput}
-									defaultValue={this.props.cardData.text}
+									defaultValue={this.props.card.text}
 									onChange={this.updateCardTitle}
 									name="title"></TextareaAutosize>
 								<div>
+									<AiOutlineUpload
+										onClick={this.toggleAssetUploadModal}
+										style={{ marginRight: "8px", cursor: "pointer" }}
+									/>
 									<AiOutlineDelete
 										onClick={this.deleteCard}
-										style={{ marginRight: "5px", cursor: "pointer" }}
-									/>
-									<AiOutlineForm
-										onClick={this.toggleModal}
 										style={{ cursor: "pointer" }}
 									/>
 								</div>
 							</div>
-
-							<div
-								className={classes.cardAsset}
-								onClick={this.toggleAssetUploadModal}>
-								Click to upload
+							{/* Conditionally render the asset modal if we have no images in the array */}
+							<div className={classes.cardAsset}>
+								{!this.state.url ? (
+									<p>No image </p>
+								) : (
+									<img
+										src={`${this.state.url}`}
+										className={classes.cardImage}
+									/>
+								)}
 							</div>
 
 							<div className={classes.cardTextWrapper}>
 								<textarea
 									className={classes.cardBodyText}
 									placeholder="Enter post copy..."
-									defaultValue={this.props.cardData.body}
+									defaultValue={this.props.card.body}
 									onChange={this.updateCardBody}
 									type="text"
 									name="body"></textarea>
@@ -108,7 +139,8 @@ class Card extends Component {
 				<UploadCardAssetmodal
 					modalOpen={this.state.isModalOpen}
 					toggleModal={this.toggleAssetUploadModal}
-					cardData={this.props.data}
+					cardData={this.props.card}
+					uploadImage={this.handleImageUpload}
 				/>
 			</Aux>
 		);
@@ -116,7 +148,7 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-	cardData: PropTypes.object.isRequired,
+	card: PropTypes.object.isRequired,
 };
 
 export default Card;

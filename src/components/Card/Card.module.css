@@ -53,3 +53,7 @@
 	resize: none;
 	border: none;
 }
+
+.cardImage {
+	width: 70%;
+}
