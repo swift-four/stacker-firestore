@@ -11,7 +11,7 @@ import { Draggable } from "react-beautiful-dnd";
 class Card extends Component {
 	state = {
 		isModalOpen: false,
-		url: "",
+		// url: "",
 	};
 
 	toggleModal = () => {
@@ -21,7 +21,7 @@ class Card extends Component {
 	deleteCard = async (e) => {
 		try {
 			e.preventDefault();
-			const cardId = this.props.cardData.id;
+			const cardId = this.props.card.id;
 			const card = await cardsRef.doc(cardId);
 			card.delete();
 		} catch (error) {
@@ -59,6 +59,18 @@ class Card extends Component {
 		this.setState({ isModalOpen: !this.state.isModalOpen });
 	};
 
+	updateCardAsset = async (url) => {
+		try {
+			const cardId = this.props.card.id;
+			const card = await cardsRef.doc(cardId);
+			card.update({
+				"card.cardAssets": url,
+			});
+		} catch (error) {
+			console.log("Error updating card body:", error);
+		}
+	};
+
 	handleImageUpload = (e) => {
 		if (e.target.files[0]) {
 			const image = e.target.files[0];
@@ -77,7 +89,8 @@ class Card extends Component {
 						.child(image.name)
 						.getDownloadURL()
 						.then((url) => {
-							this.setState({ url });
+							// this.setState({ url });
+							this.updateCardAsset(url);
 						});
 				}
 			);
@@ -113,11 +126,12 @@ class Card extends Component {
 							</div>
 							{/* Conditionally render the asset modal if we have no images in the array */}
 							<div className={classes.cardAsset}>
-								{!this.state.url ? (
+								{!this.props.card.asset ? (
 									<p>No image </p>
 								) : (
 									<img
-										src={`${this.state.url}`}
+										src={`${this.props.card.asset}`}
+										alt="card-asset"
 										className={classes.cardImage}
 									/>
 								)}

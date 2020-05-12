@@ -26,7 +26,7 @@ class Row extends Component {
 						id: doc.id,
 						text: doc.data().card.text,
 						body: doc.data().card.body,
-						assets: doc.data().card.cardAsset,
+						asset: doc.data().card.cardAssets,
 					};
 					if (change.type === "added") {
 						this.setState({
