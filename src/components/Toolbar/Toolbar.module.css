@@ -1,16 +1,17 @@
-.toolbarContainer {
-	margin: auto;
-	display: flex;
-	padding-top: 10px;
-	justify-content: space-between;
-	color: inherit;
-	border-top: 1px solid #e5eaf0;
-}
-
 .toolbarIconWrapper {
+	margin-bottom: 20px;
 	display: flex;
 	justify-content: center;
+}
+
+.toolbarContainer {
+	width: 98%;
+	padding-top: 15px;
+	margin: auto;
+	display: flex;
+	justify-content: space-between;
 	align-items: center;
+	border-top: 1px solid #e5eaf0;
 }
 
 .buttonDanger {
@@ -19,7 +20,6 @@
 	padding: 8px 14px;
 	font-size: 14px;
 	font-weight: bolder;
-	margin-right: 10px;
 	border-radius: 3px;
 	box-sizing: border-box;
 	cursor: pointer;
@@ -32,13 +32,13 @@
 .buttonDanger:hover {
 	background: #f5325c;
 	color: white;
-	transition: all 100ms ease;
+	transition: all 400ms ease;
 }
 
 .buttonDefault {
 	background: #fff;
 	color: #8d99a7;
-	padding: 8px 14px;
+	padding: 8px 10px;
 	font-size: 14px;
 	font-weight: bolder;
 	margin-right: 10px;
@@ -54,5 +54,5 @@
 
 .buttonDefault:hover {
 	color: #454f59;
-	transition: all 100ms ease;
+	transition: all 400ms ease;
 }

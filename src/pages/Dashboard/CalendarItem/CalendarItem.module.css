@@ -1,8 +1,8 @@
 .calendarItem {
-	padding: 30px;
-	border-radius: 5px;
+	border-radius: 3px;
 	text-align: center;
-	border: 1px solid #d9d9d9;
+	border: 1px solid #ecf0f4;
+	width: 90%;
 }
 
 .calendarListItem {

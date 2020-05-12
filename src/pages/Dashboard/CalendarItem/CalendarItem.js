@@ -12,14 +12,14 @@ class CalendarItem extends Component {
 	};
 	render() {
 		return (
-			<ul
+			<div
 				className={classes.calendarItem}
 				onClick={this.goToCalendar}
 				style={{ backgroundColor: this.props.calendar.background }}>
-				<li className={classes.calendarListItem}>
+				<div className={classes.calendarListItem}>
 					{this.props.calendar.title}
-				</li>
-			</ul>
+				</div>
+			</div>
 		);
 	}
 }

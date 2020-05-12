@@ -233,7 +233,6 @@ class Calendar extends Component {
 										ref={this.addCalendarInput}
 										placeholder="+ New Row"></input>
 								</form>
-								<button onClick={this.showRowOrder}>Rows</button>
 							</div>
 						) : (
 							<span></span>
