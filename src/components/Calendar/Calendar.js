@@ -16,7 +16,7 @@ class Calendar extends Component {
 		currentCalendar: {},
 		currentRows: [],
 		currentCards: [],
-		RowOrder: [], // An array from collection('calendars') that stores the ids of the rows
+		rowOrder: [], // An array from collection('calendars') that stores the ids of the rows
 		message: "",
 	};
 
@@ -38,9 +38,13 @@ class Calendar extends Component {
 							const doc = change.doc;
 							const row = {
 								id: doc.id,
+								orderId: doc.data().row.orderId,
 								title: doc.data().row.title,
 							};
 							this.setState({
+								//Re Order array based on orderId, change the id of the orderId
+								//sort the array based off of order Id // order by the title
+								rowOrder: [row.orderId],
 								currentRows: [...this.state.currentRows, row],
 							});
 						}
@@ -173,7 +177,7 @@ class Calendar extends Component {
 	};
 
 	showRowOrder = () => {
-		console.log(this.state.currentRows);
+		console.log(this.state.rowOrder);
 	};
 
 	render() {
@@ -233,6 +237,7 @@ class Calendar extends Component {
 										ref={this.addCalendarInput}
 										placeholder="+ New Row"></input>
 								</form>
+								<button onClick={this.showRowOrder}>Show Rows</button>
 							</div>
 						) : (
 							<span></span>

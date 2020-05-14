@@ -156,7 +156,9 @@ class Row extends Component {
 													)
 												)}
 												{/* Add new card input*/}
-												<form onSubmit={(e) => this.createNewCard(e, user.id)}>
+												<form
+													onSubmit={(e) => this.createNewCard(e, user.id)}
+													className={classes.newCardInputForm}>
 													<input
 														className={classes.newCardInput}
 														type="text"
