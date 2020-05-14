@@ -28,7 +28,7 @@ class Calendar extends Component {
 	}
 
 	getRows = async (calendarId) => {
-		//get rows where the listIds are equal to the list IDs stored in the
+		//get rows where the calendarid in equals to the
 		try {
 			await rowsRef
 				.where("row.calendar", "==", calendarId)
