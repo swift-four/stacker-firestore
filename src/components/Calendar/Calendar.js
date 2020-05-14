@@ -12,19 +12,52 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 //I just checked the key to be this.state.currentRows[key]id
 
 class Calendar extends Component {
-	state = {
-		currentCalendar: {},
-		currentRows: [],
-		currentCards: [],
-		rowOrder: [], // An array from collection('calendars') that stores the ids of the rows
-		message: "",
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			currentCalendar: {},
+			currentRows: [],
+			currentCards: [],
+			rowOrder: [], // An array from collection('calendars') that stores the ids of the rows
+			message: "",
+		};
+	}
 
 	addCalendarInput = React.createRef();
 
 	componentDidMount() {
 		this.getCalendar(this.props.match.params.calendarId);
 		this.getRows(this.props.match.params.calendarId);
+	}
+
+	componentDidUpdate(prevState) {
+		console.log(
+			"here's where I should update the database if the row order has changed"
+		);
+		if (this.state.currentRows !== prevState.currentRows) {
+			console.log("The rows have changed");
+			this.updateCalendarRowOrder();
+		}
+	}
+
+	compareValues(key, order = "asc") {
+		return function innerSort(a, b) {
+			if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+				// property doesn't exist on either object
+				return 0;
+			}
+
+			const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
+			const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
+
+			let comparison = 0;
+			if (varA > varB) {
+				comparison = 1;
+			} else if (varA < varB) {
+				comparison = -1;
+			}
+			return order === "desc" ? comparison * -1 : comparison;
+		};
 	}
 
 	getRows = async (calendarId) => {
@@ -42,9 +75,7 @@ class Calendar extends Component {
 								title: doc.data().row.title,
 							};
 							this.setState({
-								//Re Order array based on orderId, change the id of the orderId
 								//sort the array based off of order Id // order by the title
-								rowOrder: [row.orderId],
 								currentRows: [...this.state.currentRows, row],
 							});
 						}
@@ -63,39 +94,6 @@ class Calendar extends Component {
 			console.log("Error fetching rows:", error);
 		}
 	};
-
-	// getRows = async (calendarId) => {
-	// 	//get rows where the listIds are equal to the list IDs stored in the
-	// 	try {
-	// 		await rowsRef
-	// 			.where("row.calendar", "==", calendarId)
-	// 			.onSnapshot((snapshot) => {
-	// 				snapshot.docChanges().forEach((change) => {
-	// 					if (change.type === "added") {
-	// 						const doc = change.doc;
-	// 						const row = {
-	// 							id: doc.id,
-	// 							title: doc.data().row.title,
-	// 						};
-	// 						this.setState({
-	// 							currentRows: [...this.state.currentRows, row],
-	// 						});
-	// 					}
-	// 					if (change.type === "removed") {
-	// 						this.setState({
-	// 							currentRows: [
-	// 								...this.state.currentRows.filter((row) => {
-	// 									return row.id !== change.doc.id;
-	// 								}),
-	// 							],
-	// 						});
-	// 					}
-	// 				});
-	// 			});
-	// 	} catch (error) {
-	// 		console.log("Error fetching rows:", error);
-	// 	}
-	// };
 
 	getCalendar = async (calendarId) => {
 		try {
@@ -146,6 +144,41 @@ class Calendar extends Component {
 		}
 	};
 
+	updateCalendarRowOrder = async () => {
+		// we need the rowId in this method
+		const calendarId = this.props.match.params.calendarId;
+		const rows = this.state.currentRows;
+		console.log(
+			"Order we need to save in the database, this should match what as dragged",
+			rows
+		);
+		if (rows.length !== 0) {
+			let i = 0;
+			rows.forEach((rowKey) => {
+				try {
+					const rowId = rowKey.id;
+					const orderId = i;
+					const row = rowsRef.doc(rowId);
+					row.update({ "row.orderId": orderId });
+					i++;
+				} catch (error) {
+					console.error("Error updating row: ", error);
+				}
+			});
+		}
+	};
+
+	// updateRowOrder = async (newOrderId) => {
+	// try {
+	// 	const rowId = this.props.row.id;
+	// 	const orderId = newOrderId;
+	// 	const row = await rowsRef.doc(rowId);
+	// 	row.update({ "row.orderId": orderId });
+	// } catch (error) {
+	// 	console.error("Error updating row: ", error);
+	// }
+	// };
+
 	onDragEnd = (result) => {
 		const { destination, source, draggableId, type } = result;
 		if (!destination) {
@@ -177,10 +210,20 @@ class Calendar extends Component {
 	};
 
 	showRowOrder = () => {
-		console.log(this.state.rowOrder);
+		console.log(this.state.currentRows);
 	};
 
 	render() {
+		// let newOrderTwo = order.sort(this.compareValues("title"));
+		// let copy = [...this.state.currentRows, newOrderTwo]
+
+		let orderCopy = [...this.state.currentRows];
+		let newOrder = orderCopy.sort(this.compareValues("orderId"));
+
+		if (this.state.currentRows.length > 0) {
+			console.log("New order after sorting", newOrder);
+		}
+
 		return (
 			<AuthConsumer>
 				{({ user }) => (
@@ -207,6 +250,7 @@ class Calendar extends Component {
 								<DragDropContext onDragEnd={this.onDragEnd}>
 									<Droppable droppableId="all-rows" type="row">
 										{(provided) => (
+											// This is the row wrapper
 											<div
 												className={classes.rowsWrapper}
 												{...provided.droppableProps}
@@ -220,6 +264,7 @@ class Calendar extends Component {
 															id={this.state.currentRows[key].id}
 															cards={this.state.currentCards}
 															index={index}
+															updateRowOrder={this.updateRowOrder}
 														/>
 													)
 												)}

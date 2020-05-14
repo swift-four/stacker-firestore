@@ -87,7 +87,7 @@ class Row extends Component {
 		this.props.deleteRow(rowId);
 	};
 
-	updateRow = async (e) => {
+	updateTitle = async (e) => {
 		try {
 			const rowId = this.props.row.id;
 			const newTitle = e.currentTarget.value;
@@ -97,6 +97,22 @@ class Row extends Component {
 			console.error("Error updating row: ", error);
 		}
 	};
+
+	// updateRowOrder = async (newOrderId) => {
+	// 	try {
+	// 		const rowId = this.props.row.id;
+	// 		const orderId = newOrderId;
+	// 		const row = await rowsRef.doc(rowId);
+	// 		row.update({ "row.orderId": orderId });
+	// 	} catch (error) {
+	// 		console.error("Error updating row: ", error);
+	// 	}
+	// };
+
+	// updateRowOrder = async () => {
+	// 	const rowId = this.props.row.id;
+	// 	this.props.updateRowOrder(rowId);
+	// };
 
 	showCardOrder = () => {
 		console.log(this.state.currentCards);
@@ -131,7 +147,7 @@ class Row extends Component {
 														className={classes.rowHeaderInput}
 														type="text"
 														name="rowTitle"
-														onChange={this.updateRow}
+														onChange={this.updateTitle}
 														defaultValue={this.props.row.title}></input>
 													<div>
 														<AiOutlineDelete
