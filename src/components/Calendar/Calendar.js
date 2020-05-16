@@ -31,11 +31,7 @@ class Calendar extends Component {
 	}
 
 	componentDidUpdate(prevState) {
-		console.log(
-			"here's where I should update the database if the row order has changed"
-		);
 		if (this.state.currentRows !== prevState.currentRows) {
-			console.log("The rows have changed");
 			this.updateCalendarRowOrder();
 		}
 	}
@@ -76,7 +72,10 @@ class Calendar extends Component {
 							};
 							this.setState({
 								//sort the array based off of order Id // order by the title
-								currentRows: [...this.state.currentRows, row],
+								currentRows: [
+									...this.state.currentRows.sort(this.compareValues("orderId")),
+									row,
+								],
 							});
 						}
 						if (change.type === "removed") {
@@ -148,10 +147,6 @@ class Calendar extends Component {
 		// we need the rowId in this method
 		const calendarId = this.props.match.params.calendarId;
 		const rows = this.state.currentRows;
-		console.log(
-			"Order we need to save in the database, this should match what as dragged",
-			rows
-		);
 		if (rows.length !== 0) {
 			let i = 0;
 			rows.forEach((rowKey) => {
@@ -217,12 +212,12 @@ class Calendar extends Component {
 		// let newOrderTwo = order.sort(this.compareValues("title"));
 		// let copy = [...this.state.currentRows, newOrderTwo]
 
-		let orderCopy = [...this.state.currentRows];
-		let newOrder = orderCopy.sort(this.compareValues("orderId"));
+		// let orderCopy = [...this.state.currentRows];
+		// let newOrder = orderCopy.sort(this.compareValues("orderId"));
 
-		if (this.state.currentRows.length > 0) {
-			console.log("New order after sorting", newOrder);
-		}
+		// if (this.state.currentRows.length > 0) {
+		// 	console.log("New order after sorting", newOrder);
+		// }
 
 		return (
 			<AuthConsumer>
@@ -255,19 +250,22 @@ class Calendar extends Component {
 												className={classes.rowsWrapper}
 												{...provided.droppableProps}
 												ref={provided.innerRef}>
-												{Object.keys(this.state.currentRows).map(
-													(key, index) => (
-														<Row
-															key={this.state.currentRows[key].id}
-															row={this.state.currentRows[key]}
-															deleteRow={this.props.deleteRow}
-															id={this.state.currentRows[key].id}
-															cards={this.state.currentCards}
-															index={index}
-															updateRowOrder={this.updateRowOrder}
-														/>
+												{Object.keys(
+													this.state.currentRows.sort(
+														this.compareValues("orderId")
 													)
-												)}
+												).map((key, index) => (
+													<Row
+														key={this.state.currentRows[key].id}
+														row={this.state.currentRows[key]}
+														deleteRow={this.props.deleteRow}
+														id={this.state.currentRows[key].id}
+														cards={this.state.currentCards}
+														rows={this.state.currentRows}
+														index={index}
+														updateRowOrder={this.updateRowOrder}
+													/>
+												))}
 												{provided.placeholder}
 											</div>
 										)}

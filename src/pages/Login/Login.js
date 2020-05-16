@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AuthConsumer } from "../../contexts/AuthContext";
 import classes from "../Login/Login.module.css";
+import { Button, Checkbox, Form } from "semantic-ui-react";
 
 class UserForm extends Component {
 	emailInput = React.createRef();
@@ -13,29 +14,30 @@ class UserForm extends Component {
 	render() {
 		return (
 			<AuthConsumer>
-				{({ signUp, logIn, user, authMessage }) => (
+				{({ logIn, user, authMessage }) => (
 					<React.Fragment>
 						{!user.id ? (
 							<div className={classes.loginWrapper}>
-								<h2>Sign in</h2>
-								{authMessage ? <span>{authMessage}</span> : ""}
-								<form className={classes.loginForm}>
-									<div>
-										<input
-											ref={this.emailInput}
-											type="email"
-											name="email"
-											placeholder="Email"></input>
-									</div>
-									<div>
-										<input
-											ref={this.passwordInput}
-											type="password"
-											name="password"
-											placeholder="Password"></input>
-									</div>
-									<div>
-										<button
+								<div className={classes.loginContainer}>
+									<h2>Sign in</h2>
+									{authMessage ? <span>{authMessage}</span> : ""}
+									<Form>
+										<Form.Field>
+											<label>Email</label>
+											<input
+												placeholder="Your Email ..."
+												ref={this.emailInput}
+											/>
+										</Form.Field>
+										<Form.Field>
+											<label>Password</label>
+											<input
+												placeholder="Password..."
+												ref={this.passwordInput}
+												type="password"
+											/>
+										</Form.Field>
+										<Button
 											onClick={(e) =>
 												logIn(
 													this.emailInput.current.value,
@@ -43,10 +45,10 @@ class UserForm extends Component {
 													e
 												)
 											}>
-											Log in
-										</button>
-									</div>
-								</form>
+											Login
+										</Button>
+									</Form>
+								</div>
 							</div>
 						) : (
 							<button onClick={() => this.redirect(user.id)}>

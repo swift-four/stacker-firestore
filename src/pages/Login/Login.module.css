@@ -1,7 +1,12 @@
 .loginWrapper {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
+	height: 100vh;
+	justify-content: center;
+}
+
+.loginContainer {
+	margin-bottom: 10%;
 }
 
 .loginFormInput {

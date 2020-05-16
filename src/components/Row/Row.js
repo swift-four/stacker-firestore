@@ -168,6 +168,7 @@ class Row extends Component {
 															key={key}
 															card={this.state.currentCards[key]}
 															index={index}
+															rows={this.props.rows}
 														/>
 													)
 												)}

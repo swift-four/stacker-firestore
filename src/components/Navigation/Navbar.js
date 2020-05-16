@@ -12,7 +12,7 @@ export default function Navbar() {
 					<div className={classes.navContainer}>
 						<a href={user.id ? `/${user.id}/calendars` : `/`}>
 							{" "}
-							<Logo height="20px" />
+							<Logo height="24px" />
 						</a>
 						{
 							user.id ? (

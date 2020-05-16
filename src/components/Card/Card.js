@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 import { cardsRef, storage } from "../../firebase";
 import UploadCardAssetmodal from "./CardAsset/UploadCardAssetModal/UploadCardAssetModal";
 import TextareaAutosize from "react-autosize-textarea";
-import { AiOutlineUpload, AiOutlineDelete } from "react-icons/ai";
+import MoveCardModal from "./MoveCardModal/MoveCardModal";
+import {
+	AiOutlineUpload,
+	AiOutlineDelete,
+	AiOutlineSelect,
+} from "react-icons/ai";
 import Aux from "../Hoc/Aux";
 import classes from "./Card.module.css";
 import { Draggable } from "react-beautiful-dnd";
@@ -11,6 +16,7 @@ import { Draggable } from "react-beautiful-dnd";
 class Card extends Component {
 	state = {
 		isModalOpen: false,
+		isMoveModalOpen: false,
 		// url: "",
 	};
 
@@ -44,7 +50,7 @@ class Card extends Component {
 
 	updateCardBody = async (e) => {
 		try {
-			const cardId = this.props.cardData.id;
+			const cardId = this.props.card.id;
 			const newBody = e.currentTarget.value;
 			const card = await cardsRef.doc(cardId);
 			card.update({
@@ -57,6 +63,10 @@ class Card extends Component {
 
 	toggleAssetUploadModal = () => {
 		this.setState({ isModalOpen: !this.state.isModalOpen });
+	};
+
+	toggleMoveCardModal = () => {
+		this.setState({ isMoveModalOpen: !this.state.isMoveModalOpen });
 	};
 
 	updateCardAsset = async (url) => {
@@ -120,7 +130,11 @@ class Card extends Component {
 									/>
 									<AiOutlineDelete
 										onClick={this.deleteCard}
+										style={{ marginRight: "8px", cursor: "pointer" }}
+									/>
+									<AiOutlineSelect
 										style={{ cursor: "pointer" }}
+										onClick={this.toggleMoveCardModal}
 									/>
 								</div>
 							</div>
@@ -155,6 +169,12 @@ class Card extends Component {
 					toggleModal={this.toggleAssetUploadModal}
 					cardData={this.props.card}
 					uploadImage={this.handleImageUpload}
+				/>
+				<MoveCardModal
+					modalOpen={this.state.isMoveModalOpen}
+					toggleModal={this.toggleMoveCardModal}
+					rows={this.props.rows}
+					card={this.props.card}
 				/>
 			</Aux>
 		);
