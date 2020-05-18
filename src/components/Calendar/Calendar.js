@@ -145,8 +145,6 @@ class Calendar extends Component {
 	};
 
 	updateCalendarRowOrder = async () => {
-		// we need the rowId in this method
-		const calendarId = this.props.match.params.calendarId;
 		const rows = this.state.currentRows;
 		if (rows.length !== 0) {
 			let i = 0;

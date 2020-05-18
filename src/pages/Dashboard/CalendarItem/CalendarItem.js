@@ -12,10 +12,7 @@ class CalendarItem extends Component {
 	};
 	render() {
 		return (
-			<div
-				className={classes.calendarItem}
-				onClick={this.goToCalendar}
-				style={{ backgroundColor: this.props.calendar.background }}>
+			<div className={classes.calendarItem} onClick={this.goToCalendar}>
 				<div className={classes.calendarListItem}>
 					{this.props.calendar.title}
 				</div>

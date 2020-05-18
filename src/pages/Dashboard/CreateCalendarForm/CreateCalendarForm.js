@@ -16,7 +16,7 @@ class CreateCalendarForm extends Component {
 			createdAt: new Date(),
 			user: userId,
 		};
-		if (calendar.title && calendar.background && calendar.user) {
+		if (calendar.title && calendar.user) {
 			this.props.createNewCalendar(calendar);
 		}
 	};

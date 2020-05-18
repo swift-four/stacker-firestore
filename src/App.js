@@ -96,7 +96,6 @@ class App extends Component {
 		try {
 			const calendar = await calendarsRef.doc(calendarId);
 			calendar.update({ "calendar.title": newTitle });
-			calendar.update({ "calendar.rowOrder": rowOrder });
 		} catch (error) {
 			console.error("Error updating calendar", error);
 		}

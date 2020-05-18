@@ -10,13 +10,25 @@
 }
 
 .modalBody {
+	display: flex;
+	flex-direction: column;
 	margin: auto;
 	padding: 20px;
 	border-radius: 5px;
 	background-color: #fefefe;
 	border: 1px solid #888;
-	width: 40%;
-	height: 50vh;
+	width: 20%;
+}
+
+.modalHeader {
+	margin-bottom: 20px;
+}
+
+.modalUpload {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
 }
 
 .modalClose {
@@ -24,4 +36,23 @@
 	font-size: 1.5em;
 	color: rgb(230, 86, 86);
 	cursor: pointer;
+}
+
+.buttonDefault {
+	background: #fff;
+	color: #8d99a7;
+	padding: 8px 10px;
+	font-size: 14px;
+	width: auto;
+	font-weight: bolder;
+	border-radius: 3px;
+	border: 1px solid #e5eaf0;
+	cursor: pointer;
+	outline: none;
+	text-decoration: none;
+}
+
+.buttonDefault:hover {
+	color: #454f59;
+	transition: all 400ms ease;
 }

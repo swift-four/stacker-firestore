@@ -12,6 +12,7 @@ import {
 import Aux from "../Hoc/Aux";
 import classes from "./Card.module.css";
 import { Draggable } from "react-beautiful-dnd";
+import ReactPlayer from "react-player";
 
 class Card extends Component {
 	state = {
@@ -81,33 +82,53 @@ class Card extends Component {
 		}
 	};
 
-	handleImageUpload = (e) => {
-		if (e.target.files[0]) {
-			const image = e.target.files[0];
-			const uploadTask = storage.ref(`images/${image.name}`).put(image);
-			uploadTask.on(
-				"state_changed",
-				(snapshot) => {
-					console.log(snapshot);
-				},
-				(error) => {
-					console.log(error);
-				},
-				() => {
-					storage
-						.ref("images/")
-						.child(image.name)
-						.getDownloadURL()
-						.then((url) => {
-							// this.setState({ url });
-							this.updateCardAsset(url);
-						});
-				}
-			);
-		}
-	};
+	// handleImageUpload = (e) => {
+	// 	if (e.target.files[0]) {
+	// 		const image = e.target.files[0];
+	// 		const uploadTask = storage.ref(`images/${image.name}`).put(image);
+	// 		uploadTask.on(
+	// 			"state_changed",
+	// 			(snapshot) => {
+	// 				console.log(snapshot);
+	// 			},
+	// 			(error) => {
+	// 				console.log(error);
+	// 			},
+	// 			() => {
+	// 				storage
+	// 					.ref("images/")
+	// 					.child(image.name)
+	// 					.getDownloadURL()
+	// 					.then((url) => {
+	// 						this.updateCardAsset(url);
+	// 					});
+	// 			}
+	// 		);
+	// 	}
+	// };
 
 	render() {
+		let cardAsset = null;
+
+		if (this.props.card.video) {
+			cardAsset = (
+				<ReactPlayer
+					url={this.props.card.video}
+					width={"250px"}
+					height={"150px"}
+					controls={true}
+				/>
+			);
+		} else if (this.props.card.asset) {
+			cardAsset = (
+				<img
+					src={`${this.props.card.asset}`}
+					alt="card-asset"
+					className={classes.cardImage}
+				/>
+			);
+		}
+
 		return (
 			<Aux>
 				<Draggable draggableId={this.props.card.id} index={this.props.index}>
@@ -146,7 +167,7 @@ class Card extends Component {
 							</div>
 							{/* Conditionally render the asset modal if we have no images in the array */}
 							<div className={classes.cardAsset}>
-								{!this.props.card.asset ? (
+								{/* {!this.props.card.asset ? (
 									<p>No image </p>
 								) : (
 									<img
@@ -154,7 +175,8 @@ class Card extends Component {
 										alt="card-asset"
 										className={classes.cardImage}
 									/>
-								)}
+								)} */}
+								{cardAsset}
 							</div>
 
 							<div className={classes.cardTextWrapper}>
@@ -175,6 +197,7 @@ class Card extends Component {
 					toggleModal={this.toggleAssetUploadModal}
 					cardData={this.props.card}
 					uploadImage={this.handleImageUpload}
+					updateCardAsset={this.updateCardAsset}
 				/>
 				<MoveCardModal
 					modalOpen={this.state.isMoveModalOpen}

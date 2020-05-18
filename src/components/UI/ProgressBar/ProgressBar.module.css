@@ -1,0 +1,21 @@
+.progressContainer {
+	height: 20px;
+	width: 100%;
+	background-color: #e5eaf0;
+	border-radius: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.progressBar {
+	height: 100%;
+	width: 0%;
+	background-color: #7753f6;
+	border-radius: inherit;
+	text-align: right;
+}
+
+.progressLabel {
+	color: #8d99a7;
+}
