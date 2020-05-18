@@ -1,25 +1,34 @@
 import React, { Component } from "react";
 import CalendarItem from "../Dashboard/CalendarItem/CalendarItem";
 import PropTypes from "prop-types";
-import CreateCalendarForm from "../Dashboard/CreateCalendarForm/CreateCalendarForm";
 import classes from "../Dashboard/Dashboard.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import CreateCalendarModal from "./CreateCalendarModal/CreateCalendarModal";
 
 class Dashboard extends Component {
+	state = {
+		modalOpen: false,
+	};
 	componentDidMount() {
 		this.props.getCalendars(this.props.match.params.userId);
 	}
+
+	toggleModal = () => {
+		this.setState({ modalOpen: !this.state.modalOpen });
+	};
 
 	render() {
 		return (
 			<div className={classes.dashboardWrapper}>
 				<div className={classes.dashboardToolbar}>
 					<div className={classes.buttonAction}>
-						<AiOutlinePlusCircle style={{ marginRight: "8px" }} /> Create new
-						calendar
+						<AiOutlinePlusCircle
+							style={{ margin: "8px" }}
+							onClick={this.toggleModal}
+						/>{" "}
+						Create new calendar
 					</div>
 				</div>
-				<CreateCalendarForm createNewCalendar={this.props.createNewCalendar} />
 				<div className={classes.calendarPreviewWrapper}>
 					<div className={classes.calendarPreviewHeader}>
 						<div>
@@ -41,6 +50,11 @@ class Dashboard extends Component {
 						))}
 					</div>
 				</div>
+				<CreateCalendarModal
+					createNewCalendar={this.props.createNewCalendar}
+					toggleModal={this.toggleModal}
+					modalOpen={this.state.modalOpen}
+				/>
 			</div>
 		);
 	}

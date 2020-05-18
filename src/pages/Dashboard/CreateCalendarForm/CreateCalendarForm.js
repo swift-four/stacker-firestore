@@ -12,7 +12,6 @@ class CreateCalendarForm extends Component {
 		e.preventDefault();
 		const calendar = {
 			title: this.state.title,
-			background: this.state.background,
 			createdAt: new Date(),
 			user: userId,
 		};

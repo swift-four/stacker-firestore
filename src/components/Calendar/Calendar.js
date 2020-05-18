@@ -234,22 +234,20 @@ class Calendar extends Component {
 												className={classes.rowsWrapper}
 												{...provided.droppableProps}
 												ref={provided.innerRef}>
-												{Object.keys(
-													this.state.currentRows.sort(
-														this.compareValues("orderId")
+												{Object.keys(this.state.currentRows).map(
+													(key, index) => (
+														<Row
+															key={this.state.currentRows[key].id}
+															row={this.state.currentRows[key]}
+															deleteRow={this.props.deleteRow}
+															id={this.state.currentRows[key].id}
+															cards={this.state.currentCards}
+															rows={this.state.currentRows}
+															index={index}
+															updateRowOrder={this.updateRowOrder}
+														/>
 													)
-												).map((key, index) => (
-													<Row
-														key={this.state.currentRows[key].id}
-														row={this.state.currentRows[key]}
-														deleteRow={this.props.deleteRow}
-														id={this.state.currentRows[key].id}
-														cards={this.state.currentCards}
-														rows={this.state.currentRows}
-														index={index}
-														updateRowOrder={this.updateRowOrder}
-													/>
-												))}
+												)}
 												{provided.placeholder}
 											</div>
 										)}

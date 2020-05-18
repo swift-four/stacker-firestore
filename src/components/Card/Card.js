@@ -70,12 +70,24 @@ class Card extends Component {
 		this.setState({ isMoveModalOpen: !this.state.isMoveModalOpen });
 	};
 
-	updateCardAsset = async (url) => {
+	updateCardImage = async (url) => {
 		try {
 			const cardId = this.props.card.id;
 			const card = await cardsRef.doc(cardId);
 			card.update({
 				"card.cardAsset": url,
+			});
+		} catch (error) {
+			console.log("Error updating card body:", error);
+		}
+	};
+
+	updateCardVideo = async (url) => {
+		try {
+			const cardId = this.props.card.id;
+			const card = await cardsRef.doc(cardId);
+			card.update({
+				"card.video": url,
 			});
 		} catch (error) {
 			console.log("Error updating card body:", error);
@@ -170,12 +182,12 @@ class Card extends Component {
 								{/* {!this.props.card.asset ? (
 									<p>No image </p>
 								) : (
-									<img
-										src={`${this.props.card.asset}`}
-										alt="card-asset"
-										className={classes.cardImage}
-									/>
-								)} */}
+									// <img
+									// 	src={`${this.props.card.asset}`}
+									// 	alt="card-asset"
+									// 	className={classes.cardImage}
+									// />
+									)} */}
 								{cardAsset}
 							</div>
 
@@ -197,7 +209,8 @@ class Card extends Component {
 					toggleModal={this.toggleAssetUploadModal}
 					cardData={this.props.card}
 					uploadImage={this.handleImageUpload}
-					updateCardAsset={this.updateCardAsset}
+					updateCardImage={this.updateCardImage}
+					updateCardVideo={this.updateCardVideo}
 				/>
 				<MoveCardModal
 					modalOpen={this.state.isMoveModalOpen}

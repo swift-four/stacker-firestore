@@ -28,7 +28,7 @@ class UploadCardAssetModal extends React.Component {
 		this.setState({ isUploading: false });
 		console.error(error);
 	};
-	handleUploadSuccess = (filename) => {
+	handleImageUploadSuccess = (filename) => {
 		this.setState({ progress: 100, isUploading: false });
 		storage
 			.ref("images")
@@ -36,7 +36,19 @@ class UploadCardAssetModal extends React.Component {
 			.getDownloadURL()
 			.then((url) => {
 				this.setState({ avatarURL: url });
-				this.props.updateCardAsset(url);
+				this.props.updateCardImage(url);
+			});
+	};
+
+	handleVideoUploadSuccess = (filename) => {
+		this.setState({ progress: 100, isUploading: false });
+		storage
+			.ref("images")
+			.child(filename)
+			.getDownloadURL()
+			.then((url) => {
+				this.setState({ avatarURL: url });
+				this.props.updateCardVideo(url);
 			});
 	};
 
@@ -67,19 +79,36 @@ class UploadCardAssetModal extends React.Component {
 						</span>
 					</div>
 					<div className={classes.modalUpload}>
-						<label className={classes.buttonDefault}>
-							Upload asset
-							<Uploader
-								hidden
-								accept="image/*"
-								randomizeFilename
-								storageRef={storage.ref("images")}
-								onUploadStart={this.handleUploadStart}
-								onUploadError={this.handleUploadError}
-								onUploadSuccess={this.handleUploadSuccess}
-								onProgress={this.handleProgress}
-							/>
-						</label>
+						<div className={classes.modalButtonsWrapper}>
+							<label className={classes.buttonDefault}>
+								Upload image
+								<Uploader
+									hidden
+									accept="image/*"
+									randomizeFilename
+									storageRef={storage.ref("images")}
+									onUploadStart={this.handleUploadStart}
+									onUploadError={this.handleUploadError}
+									onUploadSuccess={this.handleImageUploadSuccess}
+									onProgress={this.handleProgress}
+								/>
+							</label>
+						</div>
+						<div>
+							<label className={classes.buttonDefault}>
+								Upload video
+								<Uploader
+									hidden
+									accept="video/*"
+									randomizeFilename
+									storageRef={storage.ref("images")}
+									onUploadStart={this.handleUploadStart}
+									onUploadError={this.handleUploadError}
+									onUploadSuccess={this.handleVideoUploadSuccess}
+									onProgress={this.handleProgress}
+								/>
+							</label>
+						</div>
 					</div>
 					<ProgressBar progress={this.state.progress} />
 				</div>
