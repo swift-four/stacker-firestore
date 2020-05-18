@@ -20,6 +20,7 @@ class Calendar extends Component {
 			currentCards: [],
 			rowOrder: [], // An array from collection('calendars') that stores the ids of the rows
 			message: "",
+			isCollapsed: false,
 		};
 	}
 
@@ -163,17 +164,6 @@ class Calendar extends Component {
 		}
 	};
 
-	// updateRowOrder = async (newOrderId) => {
-	// try {
-	// 	const rowId = this.props.row.id;
-	// 	const orderId = newOrderId;
-	// 	const row = await rowsRef.doc(rowId);
-	// 	row.update({ "row.orderId": orderId });
-	// } catch (error) {
-	// 	console.error("Error updating row: ", error);
-	// }
-	// };
-
 	onDragEnd = (result) => {
 		const { destination, source, draggableId, type } = result;
 		if (!destination) {
@@ -202,10 +192,6 @@ class Calendar extends Component {
 			this.setState(newState);
 			return;
 		}
-	};
-
-	showRowOrder = () => {
-		console.log(this.state.currentRows);
 	};
 
 	render() {
@@ -280,7 +266,6 @@ class Calendar extends Component {
 										ref={this.addCalendarInput}
 										placeholder="+ New Row"></input>
 								</form>
-								<button onClick={this.showRowOrder}>Show Rows</button>
 							</div>
 						) : (
 							<span></span>

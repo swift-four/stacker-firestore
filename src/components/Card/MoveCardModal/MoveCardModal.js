@@ -8,10 +8,6 @@ class MoveCardModal extends React.Component {
 		rowTarget: "",
 	};
 
-	showState = () => {
-		console.log(this.state.rowTarget);
-	};
-
 	moveCard = async (e) => {
 		e.preventDefault();
 		try {
@@ -43,12 +39,15 @@ class MoveCardModal extends React.Component {
 									&times;
 								</span>
 							</div>
+							<p>Select destination</p>
 							<select
 								name="lists"
 								onChange={(e) => this.setState({ rowTarget: e.target.value })}>
 								<option defaultValue="Choose List"></option>
-								{this.props.rows.map((row) => (
-									<option value={row.id}>{row.title}</option>
+								{this.props.rows.map((row, index) => (
+									<option value={row.id} key={index}>
+										{row.title}
+									</option>
 								))}
 							</select>
 							<button
@@ -58,7 +57,6 @@ class MoveCardModal extends React.Component {
 							</button>
 						</form>
 					</div>
-					<button onClick={this.showState}>Show State</button>
 				</div>
 			</React.Fragment>
 		);

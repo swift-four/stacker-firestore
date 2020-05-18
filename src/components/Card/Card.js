@@ -17,7 +17,7 @@ class Card extends Component {
 	state = {
 		isModalOpen: false,
 		isMoveModalOpen: false,
-		// url: "",
+		isPopoverOpen: false,
 	};
 
 	toggleModal = () => {
@@ -74,7 +74,7 @@ class Card extends Component {
 			const cardId = this.props.card.id;
 			const card = await cardsRef.doc(cardId);
 			card.update({
-				"card.cardAssets": url,
+				"card.cardAsset": url,
 			});
 		} catch (error) {
 			console.log("Error updating card body:", error);
@@ -123,19 +123,25 @@ class Card extends Component {
 									defaultValue={this.props.card.text}
 									onChange={this.updateCardTitle}
 									name="title"></TextareaAutosize>
-								<div>
-									<AiOutlineUpload
-										onClick={this.toggleAssetUploadModal}
-										style={{ marginRight: "8px", cursor: "pointer" }}
-									/>
-									<AiOutlineDelete
-										onClick={this.deleteCard}
-										style={{ marginRight: "8px", cursor: "pointer" }}
-									/>
-									<AiOutlineSelect
-										style={{ cursor: "pointer" }}
-										onClick={this.toggleMoveCardModal}
-									/>
+								<div className={classes.cardIconContainer}>
+									<div className={classes.cardIconWrapper}>
+										<AiOutlineUpload
+											onClick={this.toggleAssetUploadModal}
+											style={{ cursor: "pointer" }}
+										/>
+									</div>
+									<div className={classes.cardIconWrapper}>
+										<AiOutlineDelete
+											onClick={this.deleteCard}
+											style={{ cursor: "pointer" }}
+										/>
+									</div>
+									<div className={classes.cardIconWrapper}>
+										<AiOutlineSelect
+											style={{ cursor: "pointer" }}
+											onClick={this.toggleMoveCardModal}
+										/>
+									</div>
 								</div>
 							</div>
 							{/* Conditionally render the asset modal if we have no images in the array */}

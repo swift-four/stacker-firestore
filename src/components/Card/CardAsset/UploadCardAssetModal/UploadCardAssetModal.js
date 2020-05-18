@@ -7,11 +7,11 @@ class UploadCardAssetModal extends React.Component {
 		// url: "",
 	};
 
-	componentDidMount() {
-		this.setState({
-			assetLinks: this.props.cardData.cardAssets,
-		});
-	}
+	// componentDidMount() {
+	// 	this.setState({
+	// 		assetLinks: this.props.cardData.cardAssets,
+	// 	});
+	// }
 
 	render() {
 		return (

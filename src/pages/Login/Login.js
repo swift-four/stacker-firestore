@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AuthConsumer } from "../../contexts/AuthContext";
 import classes from "../Login/Login.module.css";
-import { Button, Checkbox, Form } from "semantic-ui-react";
+import { Button, Form } from "semantic-ui-react";
 
 class UserForm extends Component {
 	emailInput = React.createRef();

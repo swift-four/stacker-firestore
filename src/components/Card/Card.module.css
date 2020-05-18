@@ -14,6 +14,9 @@
 .cardHeader {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+	margin-top: 5px;
+	margin-bottom: 10px;
 }
 
 .cardHeaderInput {
@@ -21,7 +24,6 @@
 	width: 90%;
 	resize: none;
 	border: none;
-	margin-bottom: 10px;
 	font-weight: bold;
 }
 
@@ -31,17 +33,15 @@
 	align-items: center;
 	font-size: 14px;
 	color: #90a8be;
-	cursor: pointer;
 	width: 100%;
 	height: 180px;
 	background-color: transparent;
-	border: 1px #90a8be dashed;
+	/* border: 1px #e5eaf0 solid; */
 	border-radius: 5px;
 }
 
 .cardTextWrapper {
 	margin-top: 10px;
-	background-color: #888;
 	height: 30%;
 	width: 100%;
 }
@@ -50,11 +50,41 @@
 	font-size: 14px;
 	height: 100%;
 	width: 99%;
+	padding: 5px;
 	resize: none;
 	border: none;
+	outline: none;
+	border-radius: 3px;
+}
+
+.cardBodyText:hover {
+	border: 1px solid #e5eaf0;
+}
+
+.cardBodyText:focus {
+	border: 1px solid #e5eaf0;
 }
 
 .cardImage {
 	height: 98%;
 	max-width: 100%;
+}
+
+.cardIconWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	border-radius: 3px;
+}
+
+.cardIconWrapper:hover {
+	background-color: #e5eaf0;
+}
+
+.cardIconContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }

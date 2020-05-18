@@ -26,7 +26,7 @@ class Row extends Component {
 						id: doc.id,
 						text: doc.data().card.text,
 						body: doc.data().card.body,
-						asset: doc.data().card.cardAssets,
+						asset: doc.data().card.cardAsset,
 					};
 					if (change.type === "added") {
 						this.setState({
@@ -149,12 +149,11 @@ class Row extends Component {
 														name="rowTitle"
 														onChange={this.updateTitle}
 														defaultValue={this.props.row.title}></input>
-													<div>
+													<div className={classes.rowIconWrapper}>
 														<AiOutlineDelete
 															onClick={this.deleteRow}
 															style={{
 																cursor: "pointer",
-																marginRight: "10px",
 															}}
 														/>
 													</div>

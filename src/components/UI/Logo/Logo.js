@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "../Logo/Logo.module.css";
-import stackerLogo from "../../../assets/images/logo.svg";
+import stackerLogo from "../../../assets/images/stacker-purple.svg";
 
 const logo = (props) => (
 	<div className={classes.Logo} style={{ height: props.height }}>
